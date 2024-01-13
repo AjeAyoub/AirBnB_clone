@@ -2,10 +2,10 @@
 """Module for BaseModel class."""
 import uuid
 from datetime import datetime
+from models import storage
 
 class BaseModel:
     """BaseModel class for AirBnB project."""
-
     def __init__(self, *args, **kwargs):
         """Initialize BaseModel instance."""
         if kwargs:
@@ -17,6 +17,7 @@ class BaseModel:
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.now()
+            storage.new(self)  # Add the new instance to the storage
 
     def __str__(self):
         """Return a string representation of the BaseModel instance."""
@@ -25,6 +26,7 @@ class BaseModel:
     def save(self):
         """Update the public instance attribute updated_at with the current datetime."""
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """Return a dictionary containing all keys/values of __dict__ of the instance."""
@@ -57,3 +59,4 @@ if __name__ == "__main__":
 
     print("--")
     print(my_model is my_new_model)
+
